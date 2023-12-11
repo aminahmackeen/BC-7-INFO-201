@@ -103,7 +103,60 @@ Following the ", a("impact of the 9/11 attack", href="https://apnews.com/article
     
     ## ANDY
     tabPanel("COVID-19 conditions",
-            h1("edit stuff in here"),
+            h1(fluidRow(HTML("<center>
+                <h1> Covid and it's Effects on the Airline Industry</h1>
+                <p style= 'font-size:30px'>"))),
+             br(),
+  br(),
+  
+  
+  HTML("<left>
+       <h3> Please click on the checkbox to view the Case graph.</h3>
+       <p style = 'font-size:20px' >"),
+  
+  br(),
+  
+   sidebarPanel(
+     checkboxInput(inputId = "case_plot", label = "Case Plot"),
+   ),
+     
+     
+  mainPanel(plotOutput(outputId = "cases"),
+            conditionalPanel(condition = "input$case_plot == FALSE"),
+            plotOutput("finance_plot")),
+   
+  #explanation of data, the story behind it and what it represents
+   fluidRow(
+            HTML("<Center>
+                <h3> The graphs in this section explore the effect the Covid-
+                19 Pandemic had on the United States and more specifically, the airline
+                industry in the U.S. On this first graph we see the positive correlation between the
+                net profit of the airlines and Covid.When Covid first begins we
+                see that profit is in the gutter for the airlines as lockdowns
+                began being implemented in each state, then slowly but surely
+                as cases and deaths begin to lessen, in large part due to
+                the Covid vaccine the profits of the airlines goes 
+                back into the positives as people begin traveling in 2022.
+                </h3>
+                <p style = 'font-size:25px' >"),
+                 
+                br(),
+                br(),
+                
+                HTML("<Center>
+                <h3> The Case graph tells us a story of the relation between the amount of 
+                Covid cases as time progressed. We see that the amount of cases 
+                rise over the years, then sharply rises in 2022 signifying the peak
+                of the disease. This seems ironic although the vaccine was fully 
+                accessible at this point, newer and more resistant strains began
+                to spread in the U.S as people traveled all over due to lifting 
+                travel restrictions. </h3>
+                <p style = 'font-size:25px' >")
+ ),
+  
+  br(),
+  
+  )
     
 
 ## BIG WALL FOR MY SANITY
@@ -157,9 +210,24 @@ server <- function(input, output){
   #### end of p1
 
   #### page 2
+    output$cases <- renderPlot({
+    if (input$case_plot == FALSE) {
+      ggplot(join_df,aes(x = year, y = Net.Profit)) +
+        geom_bar(stat = "identity", aes(color = Net.Profit)) +
+        geom_hline(yintercept = 0) + 
+        xlab("Year") +
+        ylab("Net Profit")
+    }
+    else {
+      ggplot(join_df, aes(x = year, y = New_cases)) +
+        geom_point( aes(color = New_cases)) +
+        xlab("Year") +
+        ylab("Amount of Cases")
+    }
+  })
   
   
-#### BIG WALL FOR MY SANITY
+#### End of p2
   
   
   
