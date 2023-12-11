@@ -66,7 +66,7 @@ ui <- fluidPage(
     
     "Looking further",
     
-    ## JIN
+    ## First tab
     tabPanel("Pre-COVID-19 conditions",
              sidebarLayout(
                sidebarPanel(
@@ -96,39 +96,33 @@ Following the ", a("impact of the 9/11 attack", href="https://apnews.com/article
              p(strong("2006: "), br(), "The U.S. airline industry embarked on a path to recovery, marking a significant turnaround from the challenges faced in the preceding year. Several factors converged to propel the industry to a new high in net profit. An economic recovery, characterized by increased consumer spending and heightened business activities, played a pivotal role. Airlines strategically invested in more efficient operational methods, fostering profitability, and selectively focused on more lucrative routes, contributing to the notable upswing in net profits. This confluence of factors ushered in a positive trajectory for the U.S. airline industry in 2006."),
              p(strong("2008: "), br(), "The onset of the ", a("Great Recession", href="https://www.forbes.com/advisor/investing/great-recession/") ," triggered a decline in both consumer spending and business activities, leaving numerous individuals facing financial constraints that made travel unaffordable. Widespread job losses and the struggle to secure employment became prevalent, affecting the financial well-being of people and limiting their capacity to partake in travel-related expenses. Amid ongoing economic uncertainties, a substantial portion of the population encountered challenges in affording travel, signifying a noteworthy alteration in individuals' readiness and capability to embark on journeys amid this economically challenging period."),
              p(strong("Beyond: "), br(), "From 1977 onward, the airline industry has experienced various setbacks interspersed with occasional periods of slight improvement. Confronted by the dynamic challenges inherent in the sector, some airlines encountered difficulties in adapting and chose either to merge with other carriers or succumb to bankruptcy. Meanwhile, other more resilient airlines endured, showcasing their adaptability in the midst of the diverse challenges that define the continually changing landscape of the aviation industry.")
-             ), ## end of p1
+    ), ## end of p1
     
-## BIG WALL FOR MY SANITY
+    ##
+    ## Page 1 Content Separator
+    ##
     
-    
-    ## ANDY
+    ## Second tab
     tabPanel("COVID-19 conditions",
-            h1(fluidRow(HTML("<center>
-                <h1> Covid and it's Effects on the Airline Industry</h1>
-                <p style= 'font-size:30px'>"))),
+             h1("Covid and it's Effects on the Airline Industry"),
              br(),
-  br(),
-  
-  
-  HTML("<left>
-       <h3> Please click on the checkbox to view the Case graph.</h3>
-       <p style = 'font-size:20px' >"),
-  
-  br(),
-  
-   sidebarPanel(
-     checkboxInput(inputId = "case_plot", label = "Case Plot"),
-   ),
-     
-     
-  mainPanel(plotOutput(outputId = "cases"),
-            conditionalPanel(condition = "input$case_plot == FALSE"),
-            plotOutput("finance_plot")),
-   
-  #explanation of data, the story behind it and what it represents
-   fluidRow(
-            HTML("<Center>
-                <h3> The graphs in this section explore the effect the Covid-
+
+             h3("Please click on the checkbox to view the Case graph."),
+
+             sidebarLayout(
+               sidebarPanel(
+                  checkboxInput(inputId = "case_plot", label = "Case Plot"),
+               ),
+             
+               mainPanel(
+                 plotOutput(outputId = "cases"),
+                       conditionalPanel(condition = "input$case_plot == FALSE"),
+                       plotOutput("finance_plot")
+                 )
+             ),
+             
+             #explanation of data, the story behind it and what it represents
+             p("The graphs in this section explore the effect the Covid-
                 19 Pandemic had on the United States and more specifically, the airline
                 industry in the U.S. On this first graph we see the positive correlation between the
                 net profit of the airlines and Covid.When Covid first begins we
@@ -136,32 +130,24 @@ Following the ", a("impact of the 9/11 attack", href="https://apnews.com/article
                 began being implemented in each state, then slowly but surely
                 as cases and deaths begin to lessen, in large part due to
                 the Covid vaccine the profits of the airlines goes 
-                back into the positives as people begin traveling in 2022.
-                </h3>
-                <p style = 'font-size:25px' >"),
-                 
-                br(),
-                br(),
-                
-                HTML("<Center>
-                <h3> The Case graph tells us a story of the relation between the amount of 
+                back into the positives as people begin traveling in 2022."),
+               
+               br(),
+             
+             p("The Case graph tells us a story of the relation between the amount of 
                 Covid cases as time progressed. We see that the amount of cases 
                 rise over the years, then sharply rises in 2022 signifying the peak
                 of the disease. This seems ironic although the vaccine was fully 
                 accessible at this point, newer and more resistant strains began
                 to spread in the U.S as people traveled all over due to lifting 
-                travel restrictions. </h3>
-                <p style = 'font-size:25px' >")
- ),
-  
-  br(),
-  
-  )
+                travel restrictions."),
+             ),
     
-
-## BIG WALL FOR MY SANITY
+    ##
+    ## Page 2 Content Separator
+    ##
     
-    ## p3
+    ## Third page
     tabPanel("Post-COVID-19 conditions",
              h1("A look into the situation after lockdown"),
              h3("A lingering question might be: 
@@ -178,7 +164,7 @@ Following the ", a("impact of the 9/11 attack", href="https://apnews.com/article
                                         "Logistics" = 2,
                                         "Social" = 3)),
              htmlOutput(outputId = "post_out")
-             ) ## end of p3
+    ) ## end of p3
   ) ## end of navlistPanel
 ) ## end of UI
 
@@ -208,9 +194,9 @@ server <- function(input, output){
     yearSelected <- filter(findf_cut, Year == input$Choosen_year)
   )
   #### end of p1
-
+  
   #### page 2
-    output$cases <- renderPlot({
+  output$cases <- renderPlot({
     if (input$case_plot == FALSE) {
       ggplot(join_df,aes(x = year, y = Net.Profit)) +
         geom_bar(stat = "identity", aes(color = Net.Profit)) +
@@ -227,7 +213,7 @@ server <- function(input, output){
   })
   
   
-#### End of p2
+  #### End of p2
   
   
   
@@ -235,8 +221,8 @@ server <- function(input, output){
   output$post_out <- renderUI({
     if (input$post == 1) {
       text_out <- (p(("As reported by "), a("the US Department of Treasury", 
-                                           href = "https://home.treasury.gov/policy-issues/coronavirus/assistance-for-industry/loans-to-air-carriers-eligible-businesses-and-national-security-businesses"),
-                    (" in 2021, the 4003 Loan Program (established by the CARES Act) were authorized to give out loans to eligible businesses in regards to the losses they
+                                            href = "https://home.treasury.gov/policy-issues/coronavirus/assistance-for-industry/loans-to-air-carriers-eligible-businesses-and-national-security-businesses"),
+                     (" in 2021, the 4003 Loan Program (established by the CARES Act) were authorized to give out loans to eligible businesses in regards to the losses they
                     faced due to the pandemic. Household names of the national airline industry like Alaska Airlines and United Airlines were named as some of the businesses 
                     that benefitted from this program to keep their businesses running during the lockdown. As people were banned from travelling, where else could they source 
                     their income from? These airline companies being in debt and taking out loans are part of the reasons that airplane tickets are higher than they previously 
@@ -249,8 +235,8 @@ server <- function(input, output){
                      contactless payment methods and managed to come up with new business implementations, such as the in-flight meal preorder options. "), a("Although United Airlines rolled 
                      this option out a little before the virus shocked the world,", href = "https://simpleflying.com/united-airlines-meal-preorder/"), (" it definitely popularized as a common 
                      practice for airlines due to the pandemic.")))
-    
-      } else if (input$post == 3) {
+      
+    } else if (input$post == 3) {
       text_out <- (p(("For about two years since the start of the pandemic, social distancing measures were enforced. As a result of this enforcement along with the scare of getting the virus,
                       people generally were afraid to be outside of the comforts of their homes, where the disease is guaranteed not to be as long as no one gets infected. This isolation for 
                      a long period of time after having used to going out every day even for the smallest of errands affected people's confidence in interacting with others, what more with traveling
