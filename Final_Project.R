@@ -102,7 +102,8 @@ Following the ", a("impact of the 9/11 attack", href="https://apnews.com/article
     
     
     ## ANDY
-    tabPanel("COVID-19 conditions"),
+    tabPanel("COVID-19 conditions",
+            h1("edit stuff in here"),
     
 
 ## BIG WALL FOR MY SANITY
@@ -154,7 +155,8 @@ server <- function(input, output){
     yearSelected <- filter(findf_cut, Year == input$Choosen_year)
   )
   #### end of p1
-  
+
+  #### page 2
   
   
 #### BIG WALL FOR MY SANITY
